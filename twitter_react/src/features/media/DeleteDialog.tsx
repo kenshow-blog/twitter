@@ -3,13 +3,13 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+import { PROPS_POST_IMAGE } from "../types";
 
-const CommonDialog: React.FC<
-    { msg: any, isOpen: any, doYes: any, doNo: any }
+export const DeleteDialog: React.FunctionComponent<
+    { msg: any, isOpen: any, doYes: any, doNo: any}
     > = ({msg, isOpen, doYes, doNo}) => {
 
   const [open, setOpen] = React.useState(false)
-
   useEffect(() => {
     setOpen(isOpen)
   }, [isOpen])
@@ -38,4 +38,3 @@ const CommonDialog: React.FC<
       </div>
   )
 }
-export default CommonDialog

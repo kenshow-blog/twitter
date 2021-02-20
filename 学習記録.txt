@@ -1,0 +1,115 @@
+pip install django
+
+pip install djangorestframework
+
+pip install django-cors-headers
+
+pip install djangorestframework-simplejwt
+pip install pillow
+pip install djoser
+
+django-admin startapp media_api
+pip install djangorestframework-jwt
+settings.pyにて
+'corsheaders,
+'rest_framework',
+'media_api.apps.MediaApiConfig',
+'djoser',
+
+MIDDLEWARE
+'corsheaders.middleware.CorsMiddleware'
+
+
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000'
+]
+
+
+simplejwtの設定をカスタマイズする
+'AUTH_HEADER_TYPES': ('JWT',),
+'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30)
+
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication'
+    ]
+}
+
+timezoneを
+Asia/Tokyoへ
+mediaフォルダ作成
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+追記
+
+api_twitter  urls.pyにて
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('media_api/', include('media_api.urls')),
+    path('authen/', include('djoser.urls.jwt'))
+]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+のように編集
+
+urls.pyの編集について
+routerはviewsets
+urlpatternsに直接入れるのはgenerics
+
+AUTH_USER_MODEL = 'api.User'をsettings.pyに追加
+
+authのapiを作成する
+media_apiのmodelsを作成していく
+
+authの名前のアプリを作成したら重複エラーが起きたので注意すること
+少量のファイルの内容書き換えるだけで解決できた
+
+
+
+外部キーのものをデータベースに保存する時
+例えばユーザーの部分だったその名前を直接保存しようとしてたがこれだとAccountのinstanceを参照して欲しいとエラーが起きた
+解決策としては
+modelsからAccountクラス（外部キーの元のモデル）をimportしてその中でフィルターをかければ外部キーとしてデータベースに保存できる
+下記
+userImg = Account(id=userId)
+imgPost = ImagePost(scrName=screen_name)
+
+self.kwargs[‘pk’]でpkを取得します。
+
+複数データを抽出する時は
+Images.objects.filter(imgPost=instance.id)
+
+
+下記のような感じでユーザー情報を取得できる
+images_list = glob.glob("./media/media/*")
+url_items = "http://127.0.0.1:8000/api/mypage/"
+headers = {'Authorization': request.headers['Authorization']}
+r_get = requests.get(url_items, headers=headers)
+user = r_get.json()['username']
+
+
+削除を実装する際に
+例えば右側のものを削除したつもりが左側のものが削除されてしまった
+という事態が発生したが下記をindex.tsxに追記することで解決できた
+<React.StrictMode>
+            <App />
+      </React.StrictMode>
+
+嘘
+本当はただコンポーネントの名前がDeleteDialogにならなきゃいけなかったところを
+コピペのままCommonDialogみたいな名前になっていた
+
+でgitをリセットできる
+
+rm -rf .git
+git init

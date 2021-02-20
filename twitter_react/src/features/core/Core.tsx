@@ -110,7 +110,7 @@ const Core: React.FC = () => {
                 </>}
                 </div>
             </main>
-            
+            <div className={styles.all}></div>
             
             <footer></footer>
         </div>

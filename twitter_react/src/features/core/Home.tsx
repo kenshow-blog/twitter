@@ -1,7 +1,6 @@
 import React from 'react';
 import {
     Button,
-    Grid,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import styles from "./Core.module.css";

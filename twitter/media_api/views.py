@@ -116,19 +116,17 @@ def upload_post_path(user,instance, filename):
 def images(request):
     json_scrName = json.loads(request.body)
     screen_name = json_scrName["scrName"]
-    print(screen_name)
     search_results = (tweepy.Cursor(api.user_timeline,
                         screen_name=screen_name,
                         tweet_mode="extended",
                         include_entities=True,
                         exclude_replies=True,
                         include_rts=False).items())
-    
     quantity = 0
     try:
         for result in search_results:
             contents = result._json
-            if quantity > 2:
+            if quantity > 20:
                 break
             if "extended_entities" in contents:
                 content_check = contents["extended_entities"]["media"][0]
